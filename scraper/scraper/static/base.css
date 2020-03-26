@@ -1,6 +1,7 @@
 body {
     font-family: 'Baloo Thambi 2';
     background-color: #14646F;
+    color: white;
 }
 a {
     color: white;
@@ -29,4 +30,7 @@ a:hover {
 .nav-transparent {
     background-color: transparent;
     transition: 300ms linear;
+}
+#content {
+    margin-top: 25vh;
 }

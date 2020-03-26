@@ -40,7 +40,7 @@
                     <a class="nav-link" href="#">PRODUKTY</a>
               </li>
               <li class=" nav-item active">
-                        <a class="nav-link" href="#">POBIERZ OPINIE</a>
+                        <a class="nav-link" href="{% url 'extract' %}">POBIERZ OPINIE</a>
                 </li>
             </ul>
         </div>
@@ -69,7 +69,7 @@
         </div>
 
     </nav>
-    <div class="container">
+    <div id="content" class="container">
     {% block content %}
 
     {% endblock  %}
