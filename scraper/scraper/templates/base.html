@@ -24,12 +24,12 @@
     <nav id="nav" class="pt-3 navbar fixed-top bg-transparent navbar-expand-lg">
 
         <div class="mr-auto pr-4">
-            <a class="navbar-brand mx-auto" href="#">
+            <a class="navbar-brand mx-auto" href="{% url 'home' %}">
                 <h1>$craper</h1>
             </a>
         </div>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="navbar-toggler-icon"></span>
+            <span class="navbar-tpath('users/', include('users.urls')),oggler-icon"></span>
         </button>
         <div class="navbar-collapse collapse " id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
@@ -37,7 +37,7 @@
                     <a class="nav-link" href="#">O AUTORZE</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="#"">PRODUKTY</a>
+                    <a class="nav-link" href="#">PRODUKTY</a>
               </li>
               <li class=" nav-item active">
                         <a class="nav-link" href="#">POBIERZ OPINIE</a>
@@ -48,21 +48,32 @@
 
         <div class="navbar-collapse collapse">
             <ul class="navbar-nav ml-auto">
+                {% if user.is_authenticated %}
+                <form id="logout" action="{% url 'logout' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden">
+                </form>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">ZAŁÓŻ KONTO</a>
+                <a class="nav-link" href="javascript:document.getElementById('logout').submit()">WYLOGUJ</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">ZALOGUJ</a>
+                {% else %}
+                <li class="nav-item mx-2">
+                    <a type="submit" href="{% url 'login' %}">ZALOGUJ</a>
                 </li>
+                <li class="nav-item mx-2">
+                    <a type="submit" href="{% url 'signup' %}">ZAŁÓŻ KONTO</a>
+                </li>
+                {% endif %}
+                
             </ul>
         </div>
 
     </nav>
-
+    <div class="container">
     {% block content %}
 
     {% endblock  %}
-
+    </div>
     <footer class="text-center container pt-5">
         <div class="row">
             <div class="col-12">
