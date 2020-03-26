@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="jumbotron bg-transparent ">
+        <h1 class="display-4">Scraper opini Ceneo</h1>
+        <p class="lead">Aplikacja służy do pobierania opinii o produktach ze strony Ceneo.pl.</p>
+        <hr class="my-4">
+        <p class="lead">Dla każdej opinii pobierane są:</p>
+
+        <ul>
+            <li>identyfikator</li>
+            <li>autor</li>
+            <li>rekomendacja</li>
+            <li>liczba gwiazdek</li>
+            <li>czy opinia jest potwierdzona zakupem</li>
+            <li>data wystawienia opinii</li>
+            <li>data zakupu produktu</li>
+            <li>ile osób uznało opinię za przydatną</li>
+            <li>ile osób uznało opinię za nieprzydatną</li>
+            <li>treść opinii</li>
+            <li>lista wad</li>
+            <li>lista zalet</li>
+        </ul>
+        
+        <p class="lead">
+            <a class="mt-3 btn btn-warning btn-lg" href="#" role="button">Learn more</a>
+        </p>
+        
+    </div>
+</div>
+{% endblock  %}

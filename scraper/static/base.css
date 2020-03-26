@@ -1,0 +1,13 @@
+body {
+    font-family: 'Baloo Thambi 2';
+    background-color: #14646F;
+}
+a {
+    color: black;
+}
+a:hover {
+    color: white;
+}
+.navbar-brand {
+    size: 150%;
+}
