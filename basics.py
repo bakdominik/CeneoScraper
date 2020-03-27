@@ -9,6 +9,8 @@ url_postfix = "#tab=reviews"
 url = ceneo+product_id+url_postfix
 # get html code of opinion
 page = requests.get(url)
+print(page)
+
 soup = BeautifulSoup(page.text,'html.parser')
 # select opinions from html code
 opinions = soup.select("li.js_product-review")
@@ -23,7 +25,8 @@ while url:
         opinion_id=opinion["data-entry-id"]
         author = opinion.select('div.reviewer-name-line').pop().string.strip()
         try:
-            recomendation = opinion.select('div.product-review-summary > em').pop().string.strip()
+            if opinion.select('div.product-review-summary > em').pop().string.strip() == "Polecam":
+                recomendation = True
         except:
             recomendation = None
         stars = opinion.select('span.review-score-count').pop().string.strip()
@@ -61,16 +64,16 @@ while url:
             "useless":useless,
             "content":content,
             "cons":cons,
-            "pros":pros
+            "pros":pros,
         }
         opinions_list.append(opinion_elements)
     
     try:
-        url = ceneo+page_tree.select("a.pagination__next").pop()["href"]
+        url = ceneo+soup.select("a.pagination__next").pop()["href"]
     except IndexError:
         url = False
 
-print(opinions_list[0])
+print(page.status_code)
 
 
 
