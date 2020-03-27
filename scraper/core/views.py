@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from . models import Product,Opinion
 import requests
 from bs4 import BeautifulSoup
+from django.core.serializers import serialize
 # Create your views here.
 
 
@@ -30,20 +31,26 @@ def extract(request):
                 # select opinions from html code
                 opinions = soup.select("li.js_product-review")
                 if opinions:
-                    # if user already extracted product opinions raise error
-                    if Product.objects.get(user=request.user,product_id=product_id):
+                    # if user already extracted product opinions, raise error
+                    if Product.objects.filter(user=request.user,product_id=product_id):
                         return render(request,'core/extract.html', {'error':'Opinie do tego produktu zostały już pobrane'})
                     # if user didnt extract product opinions yet, create Product and Opinions objects
                     else:
+                        # create Product object
+
                         product = Product()
+                        product.opinions = 0
                         product.name = soup.select('h1.product-name').pop().string.strip()
                         product.product_id = product_id
                         product.user = request.user
-                        product.save()
+                        product.pros = 0 #number of opinions with pros
+                        product.cons = 0 #number of opinions with cons
+                        stars = [] #used to count mean of stars
 
-                        # get single opinion components from opinions, create opinion object
                         while url:
+                            # get single opinion components from opinions, create opinion object
                             for opinion in opinions:
+                                product.opinions += 1
                                 op = Opinion()
                                 op.user = request.user
                                 op.product_id = product_id
@@ -53,8 +60,9 @@ def extract(request):
                                     if opinion.select('div.product-review-summary > em').pop().string.strip() == "Polecam":
                                         op.recomendation = True
                                 except:
-                                    op.recomendation = None
+                                    op.recomendation = False
                                 op.stars = opinion.select('span.review-score-count').pop().string[0]
+                                stars.append(int(op.stars))
                                 try:
                                     if opinion.select("div.product-review-pz").pop().string.strip():
                                         op.confirmed_by_purchase = True
@@ -73,20 +81,34 @@ def extract(request):
                                 try:
                                     op.cons = opinion.select(
                                         'div.cons-cell > ul').pop().get_text().strip()
+                                    product.cons += 1
                                 except IndexError:
                                     op.cons = ''
                                 try:
                                     op.pros = opinion.select(
                                         'div.pros-cell > ul').pop().get_text().strip()
+                                    product.pros += 1
                                 except IndexError:
                                     op.pros = ''
                                 op.save()
+                            
                             try:
                                 url = ceneo+soup.select("a.pagination__next").pop()["href"]
-                            except IndexError:
+                                page = requests.get(url)
+
+                                if page.status_code == 200:
+                                    soup = BeautifulSoup(page.text, 'html.parser')
+                                    # select opinions from html code
+                                    opinions = soup.select("li.js_product-review")
+                            except:
                                 url = False
+
+                        product.mean_stars = sum(stars)/len(stars)
+                        product.save() #save Product object ot database
+
                         return redirect('extract')
                 else:
+                    # raise product already extracted error
                     return render(request,'core/extract.html', {'error':'Ten produkt nie posiada opinii'})
             else:
                 # raise invalid id error
@@ -95,3 +117,16 @@ def extract(request):
         return render(request,'core/extract.html', {'error':'Musisz podać ID produktu żeby pobrać opinię'})
     else:
         return render(request, 'core/extract.html')
+
+@login_required()
+def products(request):
+    if request.method == 'POST':
+        id_ = request.POST['product_id']
+        data = serialize('json', Opinion.objects.filter(user=request.user,product_id=id_))
+        response = HttpResponse(data, content_type='application/json')
+        response['Content-Disposition'] = 'attachment; filename="opinie.json"'
+        response['Content-Length'] = len(response.content)
+        return response
+    else:
+        products = Product.objects.filter(user=request.user)
+        return render(request,'core/products.html', {'products':products})
