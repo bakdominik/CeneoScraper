@@ -31,17 +31,19 @@ def extract(request):
                 opinions = soup.select("li.js_product-review")
                 if opinions:
                     # if user already extracted product opinions raise error
-                    if Product.objects.get(user=request.user,product_id=product_id):
+                    if Product.objects.filter(user=request.user,product_id=product_id):
                         return render(request,'core/extract.html', {'error':'Opinie do tego produktu zostały już pobrane'})
                     # if user didnt extract product opinions yet, create Product and Opinions objects
                     else:
+                        # get single opinion components from opinions, create opinion object
                         product = Product()
+                        product.opinions = len(opinions)
                         product.name = soup.select('h1.product-name').pop().string.strip()
                         product.product_id = product_id
                         product.user = request.user
-                        product.save()
-
-                        # get single opinion components from opinions, create opinion object
+                        product.pros = 0
+                        product.cons = 0
+                        stars = []
                         while url:
                             for opinion in opinions:
                                 op = Opinion()
@@ -55,6 +57,7 @@ def extract(request):
                                 except:
                                     op.recomendation = None
                                 op.stars = opinion.select('span.review-score-count').pop().string[0]
+                                stars.append(int(op.stars))
                                 try:
                                     if opinion.select("div.product-review-pz").pop().string.strip():
                                         op.confirmed_by_purchase = True
@@ -73,11 +76,13 @@ def extract(request):
                                 try:
                                     op.cons = opinion.select(
                                         'div.cons-cell > ul').pop().get_text().strip()
+                                    cons += 1
                                 except IndexError:
                                     op.cons = ''
                                 try:
                                     op.pros = opinion.select(
                                         'div.pros-cell > ul').pop().get_text().strip()
+                                    pros += 1
                                 except IndexError:
                                     op.pros = ''
                                 op.save()
@@ -85,6 +90,11 @@ def extract(request):
                                 url = ceneo+soup.select("a.pagination__next").pop()["href"]
                             except IndexError:
                                 url = False
+
+                            product.mean_stars = sum(stars)/len(stars)
+                            product.save()
+
+
                         return redirect('extract')
                 else:
                     return render(request,'core/extract.html', {'error':'Ten produkt nie posiada opinii'})
@@ -95,3 +105,11 @@ def extract(request):
         return render(request,'core/extract.html', {'error':'Musisz podać ID produktu żeby pobrać opinię'})
     else:
         return render(request, 'core/extract.html')
+
+@login_required()
+def products(request):
+    if request.method == 'POST':
+        pass
+    else:
+        products = Product.get.filter(user=request.user)
+        return render(request,'core/products.html', {'products':products})

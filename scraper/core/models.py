@@ -23,6 +23,11 @@ class Product(models.Model):
     product_id = models.IntegerField()
     name = models.CharField(max_length=255)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    opinions = models.IntegerField()
+    mean_stars = models.FloatField()
+    pros = models.IntegerField()
+    cons = models.IntegerField()
+    
     def __str__(self):
         return self.name
     
