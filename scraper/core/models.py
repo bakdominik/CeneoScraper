@@ -8,7 +8,7 @@ class Opinion(models.Model):
     product_id = models.IntegerField()
     opinion_id = models.IntegerField()
     author = models.CharField(max_length=255)
-    recomendation = models.BooleanField()
+    recomendation = models.BooleanField(null=True)
     stars = models.IntegerField()
     confirmed_by_purchase = models.BooleanField()
     issue_date = models.DateField(blank=True,null=True)
@@ -27,7 +27,7 @@ class Product(models.Model):
     mean_stars = models.FloatField()
     pros = models.IntegerField()
     cons = models.IntegerField()
-    
+
     def __str__(self):
         return self.name
     
