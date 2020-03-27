@@ -1,6 +1,7 @@
 body {
     font-family: 'Baloo Thambi 2';
-    background-color: #14646F;
+    background: rgb(126,157,146);
+    background: radial-gradient(circle, rgba(126,157,146,1) 0%, rgba(20,100,111,1) 100%);
     color: white;
 }
 a {
