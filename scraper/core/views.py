@@ -5,6 +5,7 @@ from . models import Product,Opinion
 import requests
 from bs4 import BeautifulSoup
 from django.core.serializers import serialize
+from django.views.generic import ListView
 # Create your views here.
 
 
@@ -57,14 +58,13 @@ def extract(request):
                                 op.opinion_id = opinion["data-entry-id"]
                                 op.author = opinion.select('div.reviewer-name-line').pop().string.strip()
                                 try:
-                                    if opinion.select('div.product-review-summary > em').pop().string.strip() == "Polecam":
-                                        op.recomendation = True
+                                    op.recomendation = opinion.select('div.product-review-summary > em').pop().string.strip()
                                 except:
-                                    op.recomendation = False
+                                    op.recomendation = 'BRAK'
                                 op.stars = opinion.select('span.review-score-count').pop().string[0]
                                 stars.append(int(op.stars))
                                 try:
-                                    if opinion.select("div.product-review-pz").pop().string.strip():
+                                    if opinion.select("div.product-review-pz > em").pop().string.strip():
                                         op.confirmed_by_purchase = True
                                 except:
                                     op.confirmed_by_purchase = False
@@ -130,3 +130,14 @@ def products(request):
     else:
         products = Product.objects.filter(user=request.user)
         return render(request,'core/products.html', {'products':products})
+
+
+
+class ProductOpinionsView(ListView):
+    template_name = "core/opinions.html"
+    model = Opinion
+    paginate_by = 10
+
+    def get_queryset(self, **kwargs):
+        return Opinion.objects.filter(product_id=self.kwargs['slug'],user=self.request.user)
+    

@@ -1,14 +1,13 @@
 body {
     font-family: 'Baloo Thambi 2';
-    background: rgb(126,157,146);
-    background: radial-gradient(circle, rgba(126,157,146,1) 0%, rgba(20,100,111,1) 100%);
-    color: white;
+    background-color: #3b6978;
+    color: #dee3e2;
 }
 a {
-    color: white;
+    color: #dee3e2;
 }
 a:hover {
-    color: white;
+    color: #dee3e2;
 }
 .navbar-brand {
     size: 80%;
@@ -18,14 +17,14 @@ a:hover {
 }
 .jumbotron {
     margin-top: 20vh;
-    color: white;
+    color: #dee3e2;
 }
 .btn-primary {
     background-color: transparent;
-    border-color: white;
+    border-color: #dee3e2;
 }
 .bg-white { 
-    background-color: white!important;
+    background-color: #dee3e2!important;
     transition: 300ms linear;
 }
 .nav-transparent {
@@ -33,5 +32,8 @@ a:hover {
     transition: 300ms linear;
 }
 #content {
-    margin-top: 25vh;
+    width: 75%;
+    margin-top: 23vh;
+    margin-right: auto;
+    margin-left: auto;
 }

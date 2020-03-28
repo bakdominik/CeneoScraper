@@ -1,13 +1,37 @@
 body {
     font-family: 'Baloo Thambi 2';
-    background-color: #14646F;
+    background: rgb(126,157,146);
+    background: radial-gradient(circle, rgba(126,157,146,1) 0%, rgba(20,100,111,1) 100%);
+    color: white;
 }
 a {
-    color: black;
+    color: white;
 }
 a:hover {
     color: white;
 }
 .navbar-brand {
-    size: 150%;
+    size: 80%;
+}
+.navbar-collapse {
+    text-align: center;
+}
+.jumbotron {
+    margin-top: 20vh;
+    color: white;
+}
+.btn-primary {
+    background-color: transparent;
+    border-color: white;
+}
+.bg-white { 
+    background-color: white!important;
+    transition: 300ms linear;
+}
+.nav-transparent {
+    background-color: transparent;
+    transition: 300ms linear;
+}
+#content {
+    margin-top: 25vh;
 }
