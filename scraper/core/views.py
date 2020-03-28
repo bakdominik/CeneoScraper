@@ -77,16 +77,16 @@ def extract(request):
                                 op.usefull = opinion.select('button.vote-yes').pop()["data-total-vote"]
                                 op.useless = opinion.select('button.vote-no').pop()["data-total-vote"]
                                 op.content = opinion.select(
-                                    'p.product-review-body').pop().get_text().strip()
+                                    'p.product-review-body').pop().get_text().strip().replace('\r', ', ').replace('\n', ', ')
                                 try:
                                     op.cons = opinion.select(
-                                        'div.cons-cell > ul').pop().get_text().strip()
+                                        'div.cons-cell > ul').pop().get_text().strip().replace('\r', ', ').replace('\n', ', ')
                                     product.cons += 1
                                 except IndexError:
                                     op.cons = ''
                                 try:
                                     op.pros = opinion.select(
-                                        'div.pros-cell > ul').pop().get_text().strip()
+                                        'div.pros-cell > ul').pop().get_text().strip().replace('\r', ', ').replace('\n', ', ')
                                     product.pros += 1
                                 except IndexError:
                                     op.pros = ''

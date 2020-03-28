@@ -10,7 +10,7 @@
         </td>
     </form>
 
-    <table class="table mt-5 table-responsive table-striped table-light">
+    <table id='table' class="table mt-5 table-responsive table-striped table-light">
         <tbody>
             <thead>
                 <tr>
@@ -27,41 +27,36 @@
                     <th scope="col">Zalety</th>
                 </tr>
             </thead>
-            {% for opinion in page_obj %}
-            <tr>
-                <td>{{opinion.author}}</td>
-                <td>{% if opinion.recomendation %}POLECAM {% else %} NIE POLECAM {% endif %}</td>
-                <td>{{opinion.stars}}/5</td>
-                <td>{% if opinion.confirmed_by_purchase %}TAK {% else %}NIE {% endif %}</td>
-                <td>{{opinion.issue_date}}</td>
-                <td>{% if opinion.purchase_date is not None %}{{opinion.purchase_date}}{% endif %}</td>
-                <td>{{opinion.usefull}}</td>
-                <td>{{opinion.useless}}</td>
-                <td>{{opinion.content}}</td>
-                <td>{{opinion.cons}}</td>
-                <td>{{opinion.pros}}</td>
-            </tr>
 
-
-            {% endfor %}
         </tbody>
     </table>
-    {% comment %} pagination {% endcomment %}
-    <div class="pagination">
-        <span class="ml-auto step-links">
-
-
-            <span class="current">
-                Strona {{ page_obj.number }} z {{ page_obj.paginator.num_pages }}.
-            </span>
-            {% if page_obj.has_previous %}
-            <a style='color:black' href="?page={{ page_obj.previous_page_number }}"><br>poprzednia</a>
-            {% endif %}
-            {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}"><br>następna</a>
-            {% endif %}
-        </span>
-    </div>
-
 
 {% endblock  %}
+{% comment %} showing opinions with DataTable framework {% endcomment %}
+{% block footer_scripts %}
+
+var data = [
+{% for opinion in object_list %}
+    ["{{opinion.author}}",
+    "{% if opinion.recomendation %}POLECAM {% else %}NIE POLECAM{% endif %}",
+    "{{opinion.stars}}",
+    "{% if opinion.confirmed_by_purchase %}TAK {% else %}NIE {% endif %}",
+    "{{opinion.issue_date}}",
+    "{% if opinion.purchase_date is not None %}{{opinion.purchase_date}}{% endif %}",
+    "{{opinion.usefull}}",
+    "{{opinion.useless}}",
+    "{{opinion.content}}",
+    "{{opinion.cons}}",
+    "{{opinion.pros}}"],
+{% endfor %}
+]      
+
+$(document).ready(function () {
+            $('#table').DataTable({
+                data:data,
+                searching: false,
+                paging: false,
+                info: false,
+            });
+        });
+{% endblock %}
