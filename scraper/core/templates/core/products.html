@@ -7,7 +7,7 @@
 </div>
 {% endif %}
 
-<table class="table mt-5 table-striped table-warning">
+<table class="table table-responsive mt-5 table-striped table-light">
   <thead>
     <tr>
       <th scope="col">Nazwa produktu</th>
@@ -20,7 +20,7 @@
   <tbody>
   {% for product in products %}
     <tr>
-      <td><a target="_blank" href=" {{ product.get_absolute_url }} " style="color:black;">{{product.name}}</a></td>
+      <td><a  href=" {{ product.get_absolute_url }} " style="color:black;">{{product.name}}</a></td>
       <td>{{product.opinions}}</td>
       <td>{{product.mean_stars}}</td>
       <td>{{product.cons}}</td>

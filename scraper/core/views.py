@@ -58,14 +58,13 @@ def extract(request):
                                 op.opinion_id = opinion["data-entry-id"]
                                 op.author = opinion.select('div.reviewer-name-line').pop().string.strip()
                                 try:
-                                    if opinion.select('div.product-review-summary > em').pop().string.strip() == "Polecam":
-                                        op.recomendation = True
+                                    op.recomendation = opinion.select('div.product-review-summary > em').pop().string.strip()
                                 except:
-                                    op.recomendation = False
+                                    op.recomendation = 'BRAK'
                                 op.stars = opinion.select('span.review-score-count').pop().string[0]
                                 stars.append(int(op.stars))
                                 try:
-                                    if opinion.select("div.product-review-pz").pop().string.strip():
+                                    if opinion.select("div.product-review-pz > em").pop().string.strip():
                                         op.confirmed_by_purchase = True
                                 except:
                                     op.confirmed_by_purchase = False
@@ -133,20 +132,12 @@ def products(request):
         return render(request,'core/products.html', {'products':products})
 
 
-# @login_required()
-# def opinions(request, product_id):
-#     if request.method == 'POST':
-#         opinions = Opinion.objects.filter(user=request.user, product_id=product_id)
-#         return render(request, 'core/opinions.html',{'opinions':opinions})
-#     else:
-#         opinions = Opinion.objects.filter(user=request.user, product_id=product_id)
-#         return render(request, 'core/opinions.html',{'opinions':opinions})
 
 class ProductOpinionsView(ListView):
     template_name = "core/opinions.html"
     model = Opinion
-    paginate_by = 2
-    
+    paginate_by = 10
+
     def get_queryset(self, **kwargs):
         return Opinion.objects.filter(product_id=self.kwargs['slug'],user=self.request.user)
     
