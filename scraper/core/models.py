@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.shortcuts import reverse
 
 # Create your models here.
 
@@ -19,6 +20,11 @@ class Opinion(models.Model):
     cons = models.CharField(max_length=255,blank=True,null=True)
     pros = models.CharField(max_length=255,blank=True,null=True)
 
+    def __str__(self):
+        return self.content
+
+
+
 class Product(models.Model):
     product_id = models.IntegerField()
     name = models.CharField(max_length=255)
@@ -27,7 +33,13 @@ class Product(models.Model):
     mean_stars = models.FloatField()
     pros = models.IntegerField()
     cons = models.IntegerField()
+    slug = models.SlugField()
 
     def __str__(self):
         return self.name
     
+     # unique url of product
+    def get_absolute_url(self):
+        return reverse('opinions', kwargs={
+            'slug': self.product_id,
+        })

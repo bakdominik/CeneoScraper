@@ -20,7 +20,7 @@
   <tbody>
   {% for product in products %}
     <tr>
-      <td><a target="_blank" href="https://www.ceneo.pl/{{product.product_id}}" style="color:black;">{{product.name}}</a></td>
+      <td><a target="_blank" href=" {{ product.get_absolute_url }} " style="color:black;">{{product.name}}</a></td>
       <td>{{product.opinions}}</td>
       <td>{{product.mean_stars}}</td>
       <td>{{product.cons}}</td>

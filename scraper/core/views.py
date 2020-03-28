@@ -5,6 +5,7 @@ from . models import Product,Opinion
 import requests
 from bs4 import BeautifulSoup
 from django.core.serializers import serialize
+from django.views.generic import ListView
 # Create your views here.
 
 
@@ -130,3 +131,22 @@ def products(request):
     else:
         products = Product.objects.filter(user=request.user)
         return render(request,'core/products.html', {'products':products})
+
+
+# @login_required()
+# def opinions(request, product_id):
+#     if request.method == 'POST':
+#         opinions = Opinion.objects.filter(user=request.user, product_id=product_id)
+#         return render(request, 'core/opinions.html',{'opinions':opinions})
+#     else:
+#         opinions = Opinion.objects.filter(user=request.user, product_id=product_id)
+#         return render(request, 'core/opinions.html',{'opinions':opinions})
+
+class ProductOpinionsView(ListView):
+    template_name = "core/opinions.html"
+    model = Opinion
+    paginate_by = 2
+    
+    def get_queryset(self, **kwargs):
+        return Opinion.objects.filter(product_id=self.kwargs['slug'],user=self.request.user)
+    
