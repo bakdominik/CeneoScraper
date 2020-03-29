@@ -156,7 +156,8 @@ def charts(request,**kwargs):
     return render(request, 'core/charts.html',{
         'stars': stars,
         'recomendations': data,
-        'rec_labels': labels
+        'rec_labels': labels,
+        'slug': kwargs['slug']
     })
 
 
