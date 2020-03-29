@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+
+
+
+
+{% block content %}
+<div class='row justify-content-center mx-auto'>
+    <a href= {% url 'opinions' slug=slug %}><button class='btn btn-sm btn-warning'>Wróć do strony produktu</button></a>
+    <br>
+    <br>
+</div>
+
+
+<div class='row'>
+<div class='col-sm-6'>
+    <h5 class='mx-auto'>Udział poszczególnych rekomendacji w opiniach</h5>
+    <br>
+    <canvas style='background-color:white' id="pie-chart"></canvas>
+
+</div>
+<div class='col-sm-6'>
+    <h5 class='mx-auto'>Liczba opinii z poszczególnymi liczbami gwiazdek</h5>
+    <br>
+    <canvas style='background-color:white' id="stars_chart"></canvas>
+ 
+</div>
+</div>
+{% endblock content %}
+
+
+
+
+{% comment %} script {% endcomment %}
+{% block footer_scripts %}
+
+    var config = {
+      type: 'pie',
+      data: {
+        datasets: [{
+          data: {{ recomendations|safe }},
+          backgroundColor: [
+            '#ffc107', '#18b0b0'
+          ],
+          label: 'test'
+        }],
+        labels: {{ rec_labels|safe }}
+      },
+      options: {
+        responsive: true
+      }
+    };
+
+    window.onload = function() {
+      var ctx = document.getElementById('pie-chart').getContext('2d');
+      window.myPie = new Chart(ctx, config);
+    };
+
+    var ctx = document.getElementById('stars_chart');
+    var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['0','1', '2', '3', '4', '5'],
+        datasets: [{
+            label: 'Liczba ocen',
+            data: {{ stars|safe }},
+            backgroundColor: [
+                '#ffc107',
+                '#ffc107',
+                '#ffc107',
+                '#ffc107',
+                '#ffc107',
+                '#ffc107'
+            ],
+          
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+
+{% endblock footer_scripts %}

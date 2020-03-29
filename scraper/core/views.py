@@ -132,12 +132,33 @@ def products(request):
         return render(request,'core/products.html', {'products':products})
 
 
-
 class ProductOpinionsView(ListView):
     template_name = "core/opinions.html"
     model = Opinion
-    paginate_by = 10
 
     def get_queryset(self, **kwargs):
         return Opinion.objects.filter(product_id=self.kwargs['slug'],user=self.request.user)
+
+    
+def charts(request,**kwargs):
+    # all opinions to selected product
+    recomended = Opinion.objects.filter(user=request.user,product_id=kwargs['slug'],recomendation='Polecam')
+    unrecomended = Opinion.objects.filter(user=request.user,product_id=kwargs['slug'],recomendation='Nie polecam')
+    opinions = Opinion.objects.filter(user=request.user,product_id=kwargs['slug'],)
+
+    stars=[0,0,0,0,0,0]
+    for opinion in opinions:
+        rate = opinion.stars
+        stars[rate] += 1
+
+    data = [len(recomended),len(unrecomended)]
+    labels = ['Polecam','Nie polecam']
+    return render(request, 'core/charts.html',{
+        'stars': stars,
+        'recomendations': data,
+        'rec_labels': labels,
+        'slug': kwargs['slug']
+    })
+
+
     

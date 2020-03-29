@@ -2,14 +2,16 @@
 
 
 {% block content %}
-
+    <div class='row justify-content-center mx-auto'>
     <form action="{% url 'products' %}" method="post">
         {% csrf_token %}
-        <input type='hidden' value='{{opinion.product_id}}' name="product_id">
+        <input type='hidden' value='{{object_list.0.product_id}}' name="product_id">
         <td><button type='submit' class='btn btn-sm btn-warning'>Pobierz opinie w pliku .json</button>
         </td>
     </form>
-
+    
+    <a href={% url 'charts' slug=object_list.0.product_id %}><button class='ml-4 btn btn-sm btn-warning'>Zobacz wykresy</button><a>
+    </div>
     <table id='table' class="table mt-5 table-responsive table-striped table-light">
         <tbody>
             <thead>
@@ -38,7 +40,7 @@
 var data = [
 {% for opinion in object_list %}
     ["{{opinion.author}}",
-    "{% if opinion.recomendation %}POLECAM {% else %}NIE POLECAM{% endif %}",
+    "{% if opinion.recomendation %}{{opinion.recomendation}}{% else %}{% endif %}",
     "{{opinion.stars}}",
     "{% if opinion.confirmed_by_purchase %}TAK {% else %}NIE {% endif %}",
     "{{opinion.issue_date|date:"j E Y"}}",
