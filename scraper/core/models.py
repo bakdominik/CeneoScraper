@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.shortcuts import reverse
+from django import forms
 
 # Create your models here.
 
@@ -43,3 +44,8 @@ class Product(models.Model):
         return reverse('opinions', kwargs={
             'slug': self.product_id,
         })
+
+class ContactForm(forms.Form):
+    from_email = forms.EmailField(required=True)
+    subject = forms.CharField(required=True)
+    message = forms.CharField(widget=forms.Textarea, required=True)

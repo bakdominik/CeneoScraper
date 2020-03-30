@@ -5,12 +5,15 @@ from . models import Product,Opinion
 import requests
 from bs4 import BeautifulSoup
 from django.core.serializers import serialize
-from django.views.generic import ListView
+from django.views.generic import ListView, TemplateView
 # Create your views here.
 
 
 def home(request):
     return render(request, 'core/home.html')
+
+class AuthorView(TemplateView):
+    template_name = "author.html"
 
 
 @login_required()
