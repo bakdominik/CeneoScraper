@@ -10,10 +10,10 @@ from django.views.generic import ListView, TemplateView
 
 
 class HomeView(TemplateView):
-    template_name = 'home.html'
+    template_name = 'core/home.html'
 
 class AuthorView(TemplateView):
-    template_name = "author.html"
+    template_name = "core/author.html"
 
 class ProductOpinionsView(ListView):
     template_name = "core/opinions.html"
@@ -139,7 +139,8 @@ def products(request):
     else:
         products = Product.objects.filter(user=request.user)
         return render(request,'core/products.html', {'products':products})
-    
+
+@login_required()
 def charts(request,**kwargs):
     # all opinions to selected product
     recomended = Opinion.objects.filter(user=request.user,product_id=kwargs['slug'],recomendation='Polecam')
