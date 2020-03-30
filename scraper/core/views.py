@@ -10,19 +10,22 @@ from django.views.generic import ListView, TemplateView
 
 
 class HomeView(TemplateView):
-    template_name = 'home.html'
+    template_name = 'core/home.html'
 
 class AuthorView(TemplateView):
-    template_name = "author.html"
+    template_name = "core/author.html"
+
 
 class ProductOpinionsView(ListView):
     template_name = "core/opinions.html"
     model = Opinion
 
+    # get all opinions of specified product
     def get_queryset(self, **kwargs):
         return Opinion.objects.filter(product_id=self.kwargs['slug'],user=self.request.user)
 
 @login_required()
+# get all opinions to product passed into the form
 def extract(request):
     if request.method == 'POST':
         if request.POST.get('product_id'):
@@ -128,8 +131,10 @@ def extract(request):
         return render(request, 'core/extract.html')
 
 @login_required()
+# display all products extracted
 def products(request):
     if request.method == 'POST':
+        # get json file downloaded
         id_ = request.POST['product_id']
         data = serialize('json', Opinion.objects.filter(user=request.user,product_id=id_))
         response = HttpResponse(data, content_type='application/json')
@@ -139,19 +144,21 @@ def products(request):
     else:
         products = Product.objects.filter(user=request.user)
         return render(request,'core/products.html', {'products':products})
-    
+
+
+@login_required()
 def charts(request,**kwargs):
     # all opinions to selected product
     recomended = Opinion.objects.filter(user=request.user,product_id=kwargs['slug'],recomendation='Polecam')
     unrecomended = Opinion.objects.filter(user=request.user,product_id=kwargs['slug'],recomendation='Nie polecam')
     opinions = Opinion.objects.filter(user=request.user,product_id=kwargs['slug'],)
-
-    stars=[0,0,0,0,0,0]
+    
+    stars=[0,0,0,0,0,0] # list of how many opinions with each stars
     for opinion in opinions:
         rate = opinion.stars
         stars[rate] += 1
 
-    data = [len(recomended),len(unrecomended)]
+    data = [len(recomended),len(unrecomended)] # recomendations
     labels = ['Polecam','Nie polecam']
     return render(request, 'core/charts.html',{
         'stars': stars,

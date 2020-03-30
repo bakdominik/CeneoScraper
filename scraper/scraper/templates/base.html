@@ -24,6 +24,7 @@
 </head>
 
 <body>
+    <!-- navbar -->
     <nav id="nav" class="container pt-3 navbar bg-transparent navbar-expand-lg">
 
         <div class="mr-auto pr-4">
@@ -39,12 +40,14 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="{% url 'author' %}"><b>O autorze</b></a>
                 </li>
+                {% if user.is_authenticated %}
                 <li class="nav-item active">
                     <a class="nav-link" href="{% url 'products' %}"><b>Produkty</b></a>
                 </li>
                 <li class=" nav-item active">
                     <a class="nav-link" href="{% url 'extract' %}"><b>Pobierz opinie</b></a>
                 </li>
+                {% endif %}
             </ul>
         </div>
 
@@ -57,7 +60,8 @@
                     <input type="hidden">
                 </form>
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript:document.getElementById('logout').submit()"><button class='btn btn-danger'>Wyloguj</button></a>
+                    <a class="nav-link" href="javascript:document.getElementById('logout').submit()"><button
+                            class='btn btn-danger'>Wyloguj</button></a>
                 </li>
                 {% else %}
                 <li class="nav-item mx-2">
@@ -72,11 +76,14 @@
         </div>
 
     </nav>
-  
-        {% block content %}
+    <!-- navbar -->
+    <!-- main content extended by other templates -->
+    {% block content %}
 
-        {% endblock  %}
-    
+    {% endblock  %}
+    <!-- main content extended by other templates -->
+
+    <!-- Footer -->
     <footer class="text-center container pt-5">
         <div class="row">
             <div class="col-12">
@@ -85,7 +92,7 @@
             </div>
         </div>
     </footer>
-
+    <!-- Footer -->
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -106,32 +113,14 @@
         src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" charset="utf8"
         src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
-    {% comment %} chart js {% endcomment %}
+    <!-- chart js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
     <!-- custom scripts-->
     <script>
-        // DataTable activation
-        {% block footer_scripts %}
-        {% endblock     %}
         
-        {% comment %} // Navbar effect
-        $(function () {
-            $(document).scroll(function () {
-                var nav = $(".fixed-top");
-                if ($(this).scrollTop() > nav.height()) {
-                    $('.nav-link').css('color', 'black');
-                    $('.navbar-brand').css('color', 'black');
-                    nav.addClass('bg-white');
-                    nav.removeClass('nav-transparent');
-                }
-                else {
-                    $('.nav-link').css('color', 'white');
-                    $('.navbar-brand').css('color', 'white');
-                    nav.addClass('nav-transparent');
-                    nav.removeClass('bg-white');
-                }
-            });
-        }); {% endcomment %}
+        {% block footer_scripts %}
+        {% endblock %}
+
     </script>
 </body>
 
