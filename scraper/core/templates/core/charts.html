@@ -5,10 +5,11 @@
 
 
 {% block content %}
+<div class='container mt-5'>
 <div class='row justify-content-center mx-auto'>
-    <a href= {% url 'opinions' slug=slug %}><button class='btn btn-sm btn-warning'>Wróć do strony produktu</button></a>
+    <a href= {% url 'opinions' slug=slug %}><button style='margin-top:10vh;'class='mb-4 btn btn-sm btn-warning'>Wróć do strony produktu</button></a>
     <br>
-    <br>
+
 </div>
 
 
@@ -26,6 +27,7 @@
  
 </div>
 </div>
+</div>
 {% endblock content %}
 
 
@@ -40,7 +42,7 @@
         datasets: [{
           data: {{ recomendations|safe }},
           backgroundColor: [
-            '#ffc107', '#18b0b0'
+            '#ffc107', '#A311BD'
           ],
           label: 'test'
         }],

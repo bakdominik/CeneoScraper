@@ -1,19 +1,24 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div style='margin-top: 20vh' class='container'>
 {% if error %}
+
 <div class="alert alert-danger" role="alert">
   {{error}}
 </div>
 {% endif %}
 <form method='POST' action="{% url 'extract' %}" enctype="multipart/form-data">
   {% csrf_token %}
-    <label class="mt-5" for="id">Aby pobrać opinię wprowadź ID produktu</label>
+  <h3><b>Aby pobrać opinię wprowadź ID produktu</b></h3>
+  <br>
   <div class="input-group mb-3">
-  <input type="text" class="form-control" name='product_id' placeholder="ID produktu ex: dla https://www.ceneo.pl/81363724 ID=81363724" id="product_id">
+    <input type="text" class="form-control" name='product_id'
+      placeholder="ID produktu ex: dla https://www.ceneo.pl/81363724 ID=81363724" id="product_id">
     <div class="input-group-append">
-    <button class='btn btn-warning' type='submit'>Pobierz opinie</button>
+      <button class='btn btn-warning' type='submit'>Pobierz opinie</button>
+    </div>
   </div>
-</div>
 </form>
+</div>
 {% endblock  %}
