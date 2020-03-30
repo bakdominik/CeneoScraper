@@ -1,43 +1,41 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="text-center container">
-    <div class=" bg-transparent ">
-        <h1 class="display-4">Scraper opini Ceneo</h1>
-        <p class="lead">Aplikacja służy do pobierania opinii o produktach ze strony Ceneo.pl.</p>
-        <hr class="my-4">
-        <p class="lead">Dla każdej opinii pobierane są:</p>
-      
-        
-            <li>identyfikator</li>
-            <li>autor</li>
-            <li>rekomendacja</li>
-            <li>liczba gwiazdek</li>
-            <li>czy opinia jest potwierdzona zakupem</li>
-            <li>data wystawienia opinii</li>
-            <li>data zakupu produktu</li>
-            <li>ile osób uznało opinię za przydatną</li>
-            <li>ile osób uznało opinię za nieprzydatną</li>
-            <li>treść opinii</li>
-            <li>lista wad</li>
-            <li>lista zalet</li>
-      
-        <hr class="my-4">
-        <p class="lead">Zastosowane technologie</p>
-       
-            <li>Django</li>
-            <li>Beautifull Soup</li>
-            <li>DataTables</li>
-            <li>Bootstrap</li>
-            <li>Requests</li>
-      
-        <p class="lead">
-            <a class="mt-3 btn btn-warning btn-lg" href="#" role="button">Learn more</a>
+<div class="container">
+    <div class="jumbotron bg-transparent ">
+        <div class='row'>
+            <div class='pt-5 col-sm-6'>
+                <h1><b>Nie kupuj kota w worku!</b></h1>
+                <p class="lead">Aplikacja pozwala na pobieranie, oraz analizę opinii o produktach ze strony Ceneo.pl, co uchroni Cię przed nietrafionym zakupem</p>
+                <p class="lead">
+            <a class="mt-3 btn btn-danger btn-lg" href="#" role="button">Załóż konto bezpłatnie</a>
         </p>
-
-        <hr class="my-4">
-        <p class="lead"> Aplikacja została napisana obiektowo</p>
-        
+            </div>
+            <div class='col-sm-6'>
+                <img class='img ml-5' style='width:70%'src='https://dbamozeby.com/pol_pl_KOT-W-WORKU-898_1.png'>
+            </div>
+        </div>
     </div>
+</div>
+<div class='p-5 home-op'>
+    <div class="container skew-txt p-5">     
+        <h1><b>Dla każdej opinii pobierane są:</b></h1>
+        <li>identyfikator</li>
+        <li>autor</li>
+        <li>rekomendacja</li>
+        <li>liczba gwiazdek</li>
+        <li>czy opinia jest potwierdzona zakupem</li>
+        <li>data wystawienia opinii</li>
+        <li>data zakupu produktu</li>
+        <li>ile osób uznało opinię za przydatną</li>
+        <li>ile osób uznało opinię za nieprzydatną</li>
+        <li>treść opinii</li>
+        <li>lista wad</li>
+        <li>lista zalet</li>
+    </div>
+</div>
+<div class='container mt-5 p-5'>
+    <h1><b>Zastosowane technologie</b></h1>
+    <p> Aplikacja została napisana obiektowo, z wykorzystaniem: Python, Django, BeautifullSoup, Requests, DataTables, Bootstrap, Javascript</p>
 </div>
 {% endblock  %}
