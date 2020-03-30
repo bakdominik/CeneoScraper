@@ -1,0 +1,49 @@
+body {
+    font-family: 'Baloo Thambi 2';
+    background-color: #FEF4E5;
+    color: black;
+}
+a {
+    color: black;
+}
+a:hover {
+    color: black;
+}
+.navbar-brand {
+    size: 80%;
+}
+.navbar-collapse {
+    text-align: center;
+}
+.home-op {
+    background-color: white;
+    transform: skew(0deg,5deg);
+    display: flex;
+}
+.img {
+    border-radius: 50%!important;
+}
+.skew-txt {
+    transform: skew(0deg,-5deg);
+}
+.btn-danger {
+    background-color: #A311BD;
+    border-color: #A311BD;
+}
+.btn-danger:hover {
+    background-color: rgb(122, 12, 141);
+    border-color: rgb(122, 12, 141);
+}
+.table.dataTable {
+    border: 1px solid #ced4da;
+    border-radius: 1rem!important;
+    background-color: white;
+}
+.table {
+    border: 1px solid #ced4da;
+    border-radius: 1rem!important;
+    background-color: white;
+}
+.navbar-toggler-icon {
+    color: black;
+}
