@@ -9,12 +9,18 @@ from django.views.generic import ListView, TemplateView
 # Create your views here.
 
 
-def home(request):
-    return render(request, 'core/home.html')
+class HomeView(TemplateView):
+    template_name = 'home.html'
 
 class AuthorView(TemplateView):
     template_name = "author.html"
 
+class ProductOpinionsView(ListView):
+    template_name = "core/opinions.html"
+    model = Opinion
+
+    def get_queryset(self, **kwargs):
+        return Opinion.objects.filter(product_id=self.kwargs['slug'],user=self.request.user)
 
 @login_required()
 def extract(request):
@@ -133,15 +139,6 @@ def products(request):
     else:
         products = Product.objects.filter(user=request.user)
         return render(request,'core/products.html', {'products':products})
-
-
-class ProductOpinionsView(ListView):
-    template_name = "core/opinions.html"
-    model = Opinion
-
-    def get_queryset(self, **kwargs):
-        return Opinion.objects.filter(product_id=self.kwargs['slug'],user=self.request.user)
-
     
 def charts(request,**kwargs):
     # all opinions to selected product

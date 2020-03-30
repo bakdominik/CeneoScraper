@@ -1,6 +1,6 @@
 from django.urls import path, include
 from . views import (
-    home,
+    HomeView,
     extract,
     products,
     ProductOpinionsView,
@@ -10,7 +10,7 @@ from . views import (
 
 
 urlpatterns = [
-    path('', home, name='home'),
+    path('', HomeView.as_view(), name='home'),
     path('extract/', extract, name='extract'),
     path('products/', products, name='products'),
     path('product/<slug>/', ProductOpinionsView.as_view(), name='opinions'),
