@@ -25,7 +25,7 @@ SECRET_KEY = 'us^h^mubt$tv88n)go-dapd+bj*7&*$!ffl32f8^yup@ia5doo'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://floating-mesa-93443.herokuapp.com/'','127.0.0.1']
 
 
 # Application definition
