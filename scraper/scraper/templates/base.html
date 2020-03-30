@@ -24,8 +24,11 @@
 </head>
 
 <body>
+
     <!-- navbar -->
-    <nav id="nav" class="container pt-3 navbar bg-transparent navbar-expand-lg">
+
+    <nav id="nav" class="container pt-3 navbar bg-transparent navbar-light navbar-expand-lg">
+
 
         <div class="mr-auto pr-4">
             <a class="navbar-brand mx-auto" href="{% url 'home' %}">
@@ -33,7 +36,7 @@
             </a>
         </div>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="navbar-tpath('users/', include('users.urls')),oggler-icon"></span>
+            <span class="navbar-toggler-icon"></span>
         </button>
         <div class="navbar-collapse collapse " id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
@@ -65,10 +68,10 @@
                 </li>
                 {% else %}
                 <li class="nav-item mx-2">
-                    <a type="submit" href="{% url 'login' %}"><button class='btn btn-danger'>Zaloguj</button></a>
+                    <a type="submit" href="{% url 'login' %}"><button class='my-2 btn btn-danger'>Zaloguj</button></a>
                 </li>
                 <li class="nav-item mx-2">
-                    <a type="submit" href="{% url 'signup' %}"><button class='btn btn-danger'>Załóż konto</button></a>
+                    <a type="submit" href="{% url 'signup' %}"><button class='my-2 btn btn-danger'>Załóż konto</button></a>
                 </li>
                 {% endif %}
 

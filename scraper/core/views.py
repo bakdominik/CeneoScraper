@@ -145,7 +145,6 @@ def products(request):
         products = Product.objects.filter(user=request.user)
         return render(request,'core/products.html', {'products':products})
 
-
 @login_required()
 def charts(request,**kwargs):
     # all opinions to selected product

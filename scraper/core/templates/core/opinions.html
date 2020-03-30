@@ -7,11 +7,11 @@
     <form action="{% url 'products' %}" method="post">
         {% csrf_token %}
         <input type='hidden' value='{{object_list.0.product_id}}' name="product_id">
-        <td><button type='submit' class='btn btn-sm btn-warning'>Pobierz opinie w pliku .json</button>
+        <td><button type='submit' class='mb-2 btn btn-sm btn-warning'>Pobierz opinie w pliku .json</button>
         </td>
     </form>
     
-    <a href={% url 'charts' slug=object_list.0.product_id %}><button class='ml-4 btn btn-sm btn-warning'>Zobacz wykresy</button><a>
+    <a href={% url 'charts' slug=object_list.0.product_id %}><button class='ml-4 mb-2 btn btn-sm btn-warning'>Zobacz wykresy</button><a>
     </div>
     <table id='table' class="table table-striped mt-5 table-responsive table-light">
         <tbody>
