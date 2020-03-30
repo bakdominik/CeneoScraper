@@ -1,10 +1,19 @@
 from django.urls import path, include
-from . import views
+from . views import (
+    home,
+    extract,
+    products,
+    ProductOpinionsView,
+    AuthorView,
+    charts,
+)
+
 
 urlpatterns = [
-    path('', views.home, name='home'),
-    path('extract/', views.extract, name='extract'),
-    path('products/', views.products, name='products'),
-    path('product/<slug>/', views.ProductOpinionsView.as_view(), name='opinions'),
-    path('product/<slug>/charts/$', views.charts, name='charts'),
+    path('', home, name='home'),
+    path('extract/', extract, name='extract'),
+    path('products/', products, name='products'),
+    path('product/<slug>/', ProductOpinionsView.as_view(), name='opinions'),
+    path('product/<slug>/charts/$', charts, name='charts'),
+    path('author/', AuthorView.as_view(), name='author')
 ]
