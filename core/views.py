@@ -29,16 +29,18 @@ class ProductOpinionsView(ListView):
 def extract(request):
     if request.method == 'POST':
         if request.POST.get('product_id'):
-
-             # URL adress
+            # check if id is int
+            try:
+                product_id = int(request.POST.get('product_id'))
+            except ValueError:
+                return render(request,'core/extract.html', {'error':'Nieprawidłowe ID produktu'})
             ceneo = "https://www.ceneo.pl/"
-            product_id = request.POST.get('product_id')
             url_postfix = "#tab=reviews"
-            url = ceneo+product_id+url_postfix
+            url = ceneo+str(product_id)+url_postfix
 
             # get html code of opinion
             page = requests.get(url)
-
+            # check
             if page.status_code == 200:
                 soup = BeautifulSoup(page.text, 'html.parser')
                 # select opinions from html code
@@ -118,7 +120,7 @@ def extract(request):
                         product.mean_stars = sum(stars)/len(stars)
                         product.save() #save Product object ot database
 
-                        return redirect('extract')
+                        return redirect('opinions', slug=product.product_id)
                 else:
                     # raise product already extracted error
                     return render(request,'core/extract.html', {'error':'Ten produkt nie posiada opinii'})

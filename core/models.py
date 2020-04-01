@@ -17,7 +17,7 @@ class Opinion(models.Model):
     purchase_date = models.DateField(blank=True,null=True)
     usefull = models.IntegerField()
     useless = models.IntegerField()
-    content = models.CharField(max_length=500)
+    content = models.CharField(max_length=2000)
     cons = models.CharField(max_length=255,blank=True,null=True)
     pros = models.CharField(max_length=255,blank=True,null=True)
 
