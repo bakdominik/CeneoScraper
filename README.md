@@ -1,11 +1,5 @@
 # CeneoScraper
 
-This app allows user to scrap and analyze opinions of products from ceneo.pl
-
-Link to live version: http://www.ceneo-scraper.dominikbak.com/
-
-# CeneoScraper
-
 Checkout live version at http://www.ceneo-scraper.dominikbak.com/
 
 ## Table of contents
