@@ -44,7 +44,7 @@ def extract(request):
             if page.status_code == 200:
                 soup = BeautifulSoup(page.text, 'html.parser')
                 # select opinions from html code
-                opinions = soup.select("li.js_product-review")
+                opinions = soup.select("div.js_product-review")
                 if opinions:
                     # if user already extracted product opinions, raise error
                     if Product.objects.filter(user=request.user,product_id=product_id):
@@ -55,7 +55,7 @@ def extract(request):
 
                         product = Product()
                         product.opinions = 0
-                        product.name = soup.select('h1.product-name').pop().string.strip()
+                        product.name = soup.select('h1.product-top-2020__product-info__name').pop().string.strip()
                         product.product_id = product_id
                         product.user = request.user
                         product.pros = 0 #number of opinions with pros
@@ -70,28 +70,28 @@ def extract(request):
                                 op.user = request.user
                                 op.product_id = product_id
                                 op.opinion_id = opinion["data-entry-id"]
-                                op.author = opinion.select('div.reviewer-name-line').pop().string.strip()
+                                op.author = opinion.select('span.user-post__author-name').pop().string.strip()
                                 try:
                                     op.recomendation = opinion.select('div.product-review-summary > em').pop().string.strip()
                                 except:
                                     op.recomendation = 'BRAK'
-                                op.stars = opinion.select('span.review-score-count').pop().string[0]
+                                op.stars = opinion.select('span.user-post__score-count').pop().string[0]
                                 stars.append(int(op.stars))
                                 try:
                                     if opinion.select("div.product-review-pz > em").pop().string.strip():
                                         op.confirmed_by_purchase = True
                                 except:
                                     op.confirmed_by_purchase = False
-                                op.issue_date = opinion.select('span.review-time > time')[0]["datetime"].split(' ')[0]
+                                op.issue_date = opinion.select('span.user-post__published > time')[0]["datetime"].split(' ')[0]
                                 try:
                                     op.purchase_date = opinion.select(
-                                        'span.review-time > time')[1]["datetime"].split(' ')[0]
+                                        'span.user-post__published > time')[1]["datetime"].split(' ')[0]
                                 except:
                                     op.purchase_date = None
                                 op.usefull = opinion.select('button.vote-yes').pop()["data-total-vote"]
                                 op.useless = opinion.select('button.vote-no').pop()["data-total-vote"]
                                 op.content = opinion.select(
-                                    'p.product-review-body').pop().get_text().strip().replace('\r', ', ').replace('\n', ', ')
+                                    'div.user-post__text').pop().get_text().strip().replace('\r', ', ').replace('\n', ', ')
                                 try:
                                     op.cons = opinion.select(
                                         'div.cons-cell > ul').pop().get_text().strip().replace('\r', ', ').replace('\n', ', ')
